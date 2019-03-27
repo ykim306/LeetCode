@@ -44,6 +44,10 @@ import java.util.Scanner;
 				
 				printEachNode(head);
 				
+				System.out.println();
+				
+				//printRecursively(head);
+				
 			}
 		}
 		
@@ -83,6 +87,21 @@ import java.util.Scanner;
 				System.out.println(tmp.val);
 				tmp = tmp.next;
 			}
+		}
+		
+		private static ListNode printRecursively(ListNode head) {
+			if (head.next == null) {
+				System.out.println(head.val);
+				return head;
+			}
+			
+			System.out.println(head.val);
+			
+			ListNode tmp = printRecursively(head.next);
+			
+			//System.out.println(head.val);
+			
+			return tmp;
 		}
 		
 	}
