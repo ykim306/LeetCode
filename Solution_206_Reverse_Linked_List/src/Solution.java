@@ -37,16 +37,17 @@ import java.util.Scanner;
 				ListNode head = new Solution().head;
 				
 				for (int i=0; i<totSize; i++) {
-					head = insertNode(head, sc.nextInt());
+					//head = insertNode(head, sc.nextInt());
+					head = insertRecursively(head, sc.nextInt());
 				}
+				
+				//printEachNode(head);
+				//printRecursively(head);
 				
 				head = reverseList(head);
 				
-				printEachNode(head);
-				
-				System.out.println();
-				
-				//printRecursively(head);
+				//printEachNode(head);
+				printRecursively(head);
 				
 			}
 		}
@@ -57,28 +58,43 @@ import java.util.Scanner;
 			ListNode(int x) { val = x; }
 		}
 		
-		static private ListNode insertNode(ListNode list, int data) {
+		static private ListNode insertNode(ListNode head, int data) {
 			ListNode newNode = new ListNode(data);
 			
-			if (list == null) {
-				list = newNode;
+			if (head == null) {
+				head = newNode;
 			} else {
-				ListNode tmp = list;
+				ListNode tmp = head;
 				while (tmp.next != null) {
 					tmp = tmp.next;
 				}
 				tmp.next = newNode;
 			}
 			
-			return list;
+			return head;
+		}
+		
+		static private ListNode insertRecursively(ListNode head, int data) {
+			
+			if (head == null) {
+				head = new ListNode(data);
+				return head;
+			} else if (head.next == null) {
+				head.next = new ListNode(data);
+				return head;
+			}
+			
+			insertRecursively(head.next, data);
+			
+			return head;
 		}
 		
 		static private ListNode reverseList(ListNode head) {
 			if (head == null || head.next == null) return head;
-			ListNode tmp = reverseList(head.next);
+			ListNode node = reverseList(head.next);
 			head.next.next = head;
 			head.next = null;
-			return tmp;
+			return node;
 		}
 	
 		private static void printEachNode(ListNode head) {
@@ -89,19 +105,17 @@ import java.util.Scanner;
 			}
 		}
 		
-		private static ListNode printRecursively(ListNode head) {
+		private static void printRecursively(ListNode head) {
 			if (head.next == null) {
 				System.out.println(head.val);
-				return head;
+				return;
 			}
 			
 			System.out.println(head.val);
 			
-			ListNode tmp = printRecursively(head.next);
+			printRecursively(head.next);
 			
 			//System.out.println(head.val);
-			
-			return tmp;
 		}
 		
 	}
