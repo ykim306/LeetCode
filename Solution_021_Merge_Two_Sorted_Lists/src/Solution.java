@@ -51,7 +51,8 @@ import java.util.Scanner;
 					//head02 = insertRecursively(head02, sc.nextInt());
 				}
 				
-				ListNode head = new Solution().mergeTwoLists(head01, head02);
+				//ListNode head = new Solution().mergeTwoLists(head01, head02);
+				ListNode head = new Solution().mergeTwoListsRecursively(head01, head02);
 				
 				printEachNode(head);
 				
@@ -65,16 +66,31 @@ import java.util.Scanner;
 		}
 		
 		public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-			// for initial testing append l2 to l1
-			ListNode tmp = l1;
 			
-			while(tmp.next !=null) {
-				tmp = tmp.next;
+			ListNode preHead = new ListNode(0);
+			ListNode answerHead = preHead;
+			
+			while (l1 != null && l2 != null) {
+				if (l1.val > l2.val) {
+					answerHead.next = l2;
+					l2 = l2.next;
+				} else {
+					answerHead.next = l1;
+					l1 = l1.next;
+				}
+				answerHead = answerHead.next;
 			}
 			
-			tmp.next = l2;
+			return preHead.next;
+		}
+		
+		public ListNode mergeTwoListsRecursively(ListNode l1, ListNode l2) {
 			
-			return l1;
+			ListNode preHead = new ListNode(0);
+			
+			
+			
+			return preHead.next;
 		}
 		
 		static private ListNode insertNode(ListNode head, int data) {
