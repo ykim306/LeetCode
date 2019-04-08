@@ -51,8 +51,8 @@ import java.util.Scanner;
 					//head02 = insertRecursively(head02, sc.nextInt());
 				}
 				
-				//ListNode head = new Solution().mergeTwoLists(head01, head02);
-				ListNode head = new Solution().mergeTwoListsRecursively(head01, head02);
+				ListNode head = new Solution().mergeTwoLists(head01, head02);
+				//ListNode head = new Solution().mergeTwoListsRecursively(head01, head02);
 				
 				printEachNode(head);
 				
@@ -79,6 +79,12 @@ import java.util.Scanner;
 					l1 = l1.next;
 				}
 				answerHead = answerHead.next;
+			}
+			
+			if(l1 == null) {
+				answerHead.next = l2;
+			} else {
+				answerHead.next = l1;
 			}
 			
 			return preHead.next;
