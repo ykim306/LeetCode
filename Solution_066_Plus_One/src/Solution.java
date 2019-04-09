@@ -51,7 +51,8 @@ import java.util.Scanner;
 						numArray[j] = sc.nextInt();
 					}
 					
-					answer = plusOne(numArray);
+					//answer = plusOne(numArray);
+					answer = plusOneRecursively(numArray, numArray.length-1);
 					
 					System.out.println(Arrays.toString(answer));
 				}
@@ -68,6 +69,25 @@ import java.util.Scanner;
 					digits[i] = 0;
 				}
 			}
+			if (digits[0] == 0) {
+				int[] res = new int[digits.length+1];
+				res[0] = 1;
+				return res;
+			}
+			return digits;
+			
+		}
+		
+		static private int[] plusOneRecursively(int[] digits, int MaxIndex) {
+			
+			if (digits[MaxIndex] != 9) {
+				digits[MaxIndex] += 1;
+				return digits;
+			} else {
+				digits[MaxIndex] = 0;
+				plusOneRecursively(digits, MaxIndex-1);
+			}
+			
 			if (digits[0] == 0) {
 				int[] res = new int[digits.length+1];
 				res[0] = 1;
