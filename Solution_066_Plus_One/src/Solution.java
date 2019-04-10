@@ -52,7 +52,7 @@ import java.util.Scanner;
 					}
 					
 					//answer = plusOne(numArray);
-					answer = plusOneRecursively(numArray, numArray.length-1);
+					answer = plusOneRecursively(numArray);
 					
 					System.out.println(Arrays.toString(answer));
 				}
@@ -78,23 +78,30 @@ import java.util.Scanner;
 			
 		}
 		
-		static private int[] plusOneRecursively(int[] digits, int MaxIndex) {
+		static private int[] plusOneRecursively(int[] digits) {
 			
-			if (digits[MaxIndex] != 9) {
-				digits[MaxIndex] += 1;
-				return digits;
-			} else {
-				digits[MaxIndex] = 0;
-				plusOneRecursively(digits, MaxIndex-1);
+			return recursion(digits, digits.length-1);
+			
+		}
+		
+		static private int[] recursion(int[] tmpArray, int maxIndex) {
+			
+			if (maxIndex < 0) { return tmpArray; }
+			if (tmpArray[maxIndex] < 9) {
+				tmpArray[maxIndex] += 1;
+				return tmpArray;
 			}
 			
-			if (digits[0] == 0) {
-				int[] res = new int[digits.length+1];
+			tmpArray[maxIndex] = 0;
+			tmpArray = recursion(tmpArray, maxIndex-1);
+			
+			if (tmpArray[0] == 0) {
+				int[] res = new int[tmpArray.length+1];
 				res[0] = 1;
 				return res;
 			}
-			return digits;
 			
+			return tmpArray;
 		}
 		
 	}
