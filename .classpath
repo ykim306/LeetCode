@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Solution_001_Two_Sums/src"/>
+	<classpathentry kind="src" path="Solution_020_Valid_Parenthesis/src"/>
+	<classpathentry kind="src" path="Solution_021_Merge_Two_Sorted_Lists/src"/>
+	<classpathentry kind="src" path="Solution_155_Min_Stack/src"/>
+	<classpathentry kind="src" path="Solution_206_Reverse_Linked_List/src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

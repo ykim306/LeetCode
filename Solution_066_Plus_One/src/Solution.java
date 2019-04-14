@@ -80,20 +80,22 @@ import java.util.Scanner;
 		
 		static private int[] plusOneRecursively(int[] digits, int MaxIndex) {
 			
-			if (digits[MaxIndex] != 9) {
-				digits[MaxIndex] += 1;
-				return digits;
-			} else {
-				digits[MaxIndex] = 0;
-				plusOneRecursively(digits, MaxIndex-1);
-			}
-			
-			if (digits[0] == 0) {
-				int[] res = new int[digits.length+1];
-				res[0] = 1;
-				return res;
-			}
-			return digits;
+			if (MaxIndex <0){
+	            return digits;
+			} else if (digits[MaxIndex] != 9) {
+	            digits[MaxIndex] += 1;
+	            return digits;
+	        } else {
+	            digits[MaxIndex] = 0;
+	            plusOneRecursively(digits, MaxIndex-1);
+	        }
+	        
+	        if (digits[0] == 0) {
+	            int[] res = new int[digits.length+1];
+	            res[0] = 1;
+	            return res;
+	        }
+	        return digits;
 			
 		}
 		
