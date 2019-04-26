@@ -48,7 +48,8 @@ import java.util.Stack;
 					}
 					
 					//System.out.println(Arrays.toString(testInput));
-					answer = numUniqueEmails(testInput);
+					//answer = numUniqueEmails(testInput);
+					answer = numUniqueEmails02(testInput);
 					System.out.println(answer);
 				}
 			}
@@ -62,12 +63,44 @@ import java.util.Stack;
 				
 				tmpArray = email.split("@",2);
 				tmpArray[0] = tmpArray[0].split("\\+", 2)[0];
+				//tmpArray[0] = String.join("", tmpArray[0].split("\\."));
 				tmpArray[0] = tmpArray[0].replaceAll("\\.", "");
 				
 				emailSet.add(tmpArray[0] + "@" + tmpArray[1]);
 			}
 			
 			return emailSet.size();
+		}
+		
+		static private int numUniqueEmails02(String[] emails) {
+			Map<String, Boolean> emailMap = new HashMap<>();
+			
+			for (String email : emails) {
+				boolean enabled = true;
+				boolean finished = false;
+				StringBuilder sb = new StringBuilder();
+			
+				for (int i=0; i<email.length(); i++) {
+					char tmpChar = email.charAt(i);
+					
+					if (!finished) {
+						if (tmpChar == '@') {
+							sb.append(tmpChar);
+							finished = true;
+						}
+						else if (tmpChar == '+') { enabled = false; }
+						else if (tmpChar != '.' && enabled) { sb.append(tmpChar); }
+					} else {
+						sb.append(tmpChar);
+					}
+					
+				}
+				
+				//System.out.println(sb.toString());
+				emailMap.put(sb.toString(), null);
+			}
+			
+			return emailMap.size();
 		}
 	
 	}
