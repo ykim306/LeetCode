@@ -1,10 +1,5 @@
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 	/*
@@ -21,14 +16,28 @@ import java.util.Scanner;
 	
 	Example 1:
 	
-	Input: [[1,1,0],[1,0,1],[0,0,0]]
-	Output: [[1,0,0],[0,1,0],[1,1,1]]
+	Input: [
+	[1,1,0],
+	[1,0,1],
+	[0,0,0]]
+	Output: [
+	[1,0,0],
+	[0,1,0],
+	[1,1,1]]
 	Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
 	Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
 	Example 2:
 	
-	Input: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
-	Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+	Input: [
+	[1,1,0,0],
+	[1,0,0,1],
+	[0,1,1,1],
+	[1,0,1,0]]
+	Output: [
+	[1,1,0,0],
+	[0,1,1,0],
+	[0,0,0,1],
+	[1,0,1,0]]
 	Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
 	Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
 	Notes:
@@ -73,22 +82,43 @@ import java.util.Scanner;
 						} 
 					}
 					
-					for (int[] a : numArray) {
-						System.out.println(Arrays.toString(a));
-					}
+//					for (int[] a : numArray) {
+//						System.out.println(Arrays.toString(a));
+//					}
+//					System.out.println();
 					
 					answer = flipAndInvertImage(numArray);
 					
-					System.out.println(answer);
+					for (int[] a : answer) {
+						System.out.println(Arrays.toString(a));
+					}
+					System.out.println();
 				}
 			}
 		}
 		
 		private static int[][] flipAndInvertImage(int[][] A) {
+						
+			for (int i = 0; i < A.length; i++) {
+				
+				int startIndex = 0;
+				int endIndex = A[i].length-1;
+				
+				while (startIndex <= endIndex) {
+					
+					if (startIndex == endIndex) {
+						A[i][startIndex] = A[i][startIndex]^1;
+					} else if (A[i][startIndex] == A[i][endIndex]) {
+						A[i][startIndex] = A[i][startIndex]^1;
+						A[i][endIndex] = A[i][endIndex]^1;
+					}
+					
+					startIndex++;
+					endIndex--;
+				}
+			}
 			
-			
-			
-			return new int[][] {};
+			return A;
 		}
 		
 	}
