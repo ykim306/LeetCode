@@ -6,6 +6,22 @@ import java.util.Arrays;
 	/*
 	As the name of the class should be Solution, using Solution.java as the filename is recommended.
 	In any case, you can execute your program by running 'java Solution' command.
+	
+	#1 20 
+	#2 77 
+	
+	(sample_input.txt 에 대한 출력) 
+	#1 167436 
+	#2 166417 
+	#3 182761 
+	#4 669232868 
+	#5 1425634765276 
+	#6 443318195116 
+	#7 1787841655257 
+	#8 47548858537543 
+	#9 25678408034773 
+	#10 34362071934741
+
 	*/
 	class Solution
 	{
