@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -30,20 +31,20 @@ import java.util.TreeSet;
 	{
 		static long tStart = 0;
 		static int T;
-		static Node head;
+		static long ANSWER;
 		
 		public static void main(String args[]) throws Exception
 		{
 			//System.setIn(new FileInputStream("sample_input.txt"));
-			System.setIn(new FileInputStream("sample_input_small.txt"));
-			//System.setIn(new FileInputStream("sample_input_big.txt"));
+			//System.setIn(new FileInputStream("sample_input_small.txt"));
+			System.setIn(new FileInputStream("sample_input_big.txt"));
 			
 			tStart = System.currentTimeMillis();
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			
 			T = Integer.parseInt(br.readLine().trim());
-			for(int test_case=1; test_case<=T; test_case++){
+			for(int testCase=1; testCase<=T; testCase++){
 				int N = Integer.parseInt(br.readLine().trim());
 				String[] sInput;
 				//List<Node> nodeListByX = new ArrayList<>();
@@ -64,7 +65,7 @@ import java.util.TreeSet;
 //					
 //				});
 				
-				Arrays.sort(nodeArrayByX, new SortByNodeX());
+				Arrays.sort(nodeArrayByX, new SortByNodeXDesc());
 				
 //				for(Node n : nodeListByX) {
 //					System.out.println(n.x + " " + n.y + " " + n.data);
@@ -75,74 +76,75 @@ import java.util.TreeSet;
 //				}
 				
 				// Instantiate TreeSet
-				TreeSet<Node> nodeTree = new TreeSet<Node>(new SortByNodeY());
+				TreeSet<Node> nodeTree = new TreeSet<Node>(new SortByNodeYDesc());
 				
-				nodeTree.add(nodeArrayByX[--N]);
-				printTree(nodeTree);
-				System.out.println();
-				nodeTree.add(nodeArrayByX[--N]);
-				printTree(nodeTree);
-				System.out.println();
-				nodeTree.add(nodeArrayByX[--N]);
-				printTree(nodeTree);
-				System.out.println();
-				nodeTree.add(nodeArrayByX[--N]);
-				printTree(nodeTree);
-				System.out.println();
-				nodeTree.add(nodeArrayByX[--N]);
-				printTree(nodeTree);
-				System.out.println();
+				ANSWER = 0;
 				
-				// Instantiate Answer
+				for (Node n : nodeArrayByX) {
+					// Find y > current y add to Answer
+					if (nodeTree.size() > 0) {
+						Node tmpNode = nodeTree.lower(n);
+						if (tmpNode != null) ANSWER += tmpNode.subsetSum;
+					}
+					
+					// Insert Node
+					nodeTree.add(n);
+					// Update each Node subsetSum
+					updateTreeSubsetSum(nodeTree);
+				}
 				
-				
-				// Find y > current y add to Answer
-				
-				
-				// Insert Node
-				
-				
-				System.out.println();
+				System.out.println("#" + testCase + " " + ANSWER);
 			}
 				
-			System.out.println("* " + ( (System.currentTimeMillis() - tStart) / 1000.0 ) + " seconds");
+			System.out.println("\n" + ( (System.currentTimeMillis() - tStart) / 1000.0 ) + " seconds");
 		}
 		
 		static class Node {
 			int x;
 			int y;
 			int data;
-			Node left;
-			Node right;
+			int subsetSum;
 			
 			public Node (int x, int y, int data) {
 				this.x = x;
 				this.y = y;
 				this.data = data;
-				this.left = null;
-				this.right = null;
+				this.subsetSum = 0;
 			}
 		}
 		
-		static class SortByNodeX implements Comparator<Node> {
+		static class SortByNodeXDesc implements Comparator<Node> {
 			public int compare(Node n1, Node n2) {
-				return n1.x - n2.x;
+				return n2.x - n1.x;
 //				if (n1.x < n2.x) return -1;
 //				else if (n1.x == n2.x) return 0;
 //				else return 1;
 			}
 		}
 		
-		static class SortByNodeY implements Comparator<Node> {
+		static class SortByNodeYDesc implements Comparator<Node> {
 			public int compare(Node n1, Node n2) {
-				return n1.y - n2.y;
+				return n2.y - n1.y;
 			}
+		}
+		
+		static void updateTreeSubsetSum(TreeSet<Node> tree) {
+			int runningSum = 0;
+			Iterator<Node> itr = tree.iterator();
+			
+			while (itr.hasNext()) {
+				Node currentNode = itr.next();
+				runningSum += currentNode.data;
+				currentNode.subsetSum = runningSum;
+			}
+			
+			return;
 		}
 		
 		// Helper function to print
 		static void printTree(TreeSet<Node> tree) {
 			for (Node n : tree) {
-				System.out.println(n.x + " " + n.y + " " + n.data);
+				System.out.println(n.x + " " + n.y + " " + n.data + " " + n.subsetSum);
 			}
 		}
 		
