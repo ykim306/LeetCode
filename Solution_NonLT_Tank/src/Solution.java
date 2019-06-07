@@ -35,9 +35,9 @@ import java.util.TreeSet;
 		
 		public static void main(String args[]) throws Exception
 		{
-			//System.setIn(new FileInputStream("sample_input.txt"));
+			System.setIn(new FileInputStream("sample_input.txt"));
 			//System.setIn(new FileInputStream("sample_input_small.txt"));
-			System.setIn(new FileInputStream("sample_input_big.txt"));
+			//System.setIn(new FileInputStream("sample_input_big.txt"));
 			
 			tStart = System.currentTimeMillis();
 			
@@ -80,17 +80,25 @@ import java.util.TreeSet;
 				
 				ANSWER = 0;
 				
+				//nodeTree.add(nodeArrayByX[0]);
+				
 				for (Node n : nodeArrayByX) {
 					// Find y > current y add to Answer
 					if (nodeTree.size() > 0) {
+						
 						Node tmpNode = nodeTree.lower(n);
-						if (tmpNode != null) ANSWER += tmpNode.subsetSum;
+						
+						if (tmpNode != null) {
+							ANSWER += tmpNode.subsetSum;
+							
+						}
+						
 					}
 					
 					// Insert Node
 					nodeTree.add(n);
 					// Update each Node subsetSum
-					updateTreeSubsetSum(nodeTree);
+					//updateTreeSubsetSum(nodeTree);
 				}
 				
 				System.out.println("#" + testCase + " " + ANSWER);
@@ -102,8 +110,8 @@ import java.util.TreeSet;
 		static class Node {
 			int x;
 			int y;
-			int data;
-			int subsetSum;
+			long data;
+			long subsetSum;
 			
 			public Node (int x, int y, int data) {
 				this.x = x;
