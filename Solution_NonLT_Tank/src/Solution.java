@@ -35,9 +35,9 @@ import java.util.TreeSet;
 		
 		public static void main(String args[]) throws Exception
 		{
-			System.setIn(new FileInputStream("sample_input.txt"));
+			//System.setIn(new FileInputStream("sample_input.txt"));
 			//System.setIn(new FileInputStream("sample_input_small.txt"));
-			//System.setIn(new FileInputStream("sample_input_big.txt"));
+			System.setIn(new FileInputStream("sample_input_big.txt"));
 			
 			tStart = System.currentTimeMillis();
 			
@@ -54,7 +54,6 @@ import java.util.TreeSet;
 					sInput = br.readLine().split(" ");
 					//nodeListByX.add(new Node(Integer.parseInt(sInput[0]), Integer.parseInt(sInput[1]), Integer.parseInt(sInput[2])));
 					nodeArrayByX[i] = new Node(Integer.parseInt(sInput[0]), Integer.parseInt(sInput[1]), Integer.parseInt(sInput[2]));
-					
 				}
 				
 //				Collections.sort(nodeListByX, new Comparator<Node>(){
@@ -80,25 +79,25 @@ import java.util.TreeSet;
 				
 				ANSWER = 0;
 				
-				//nodeTree.add(nodeArrayByX[0]);
+				// 1st element will always not have higher y, so just add
+				nodeTree.add(nodeArrayByX[0]);
 				
-				for (Node n : nodeArrayByX) {
+				for (int i=1; i<N; i++) {
 					// Find y > current y add to Answer
-					if (nodeTree.size() > 0) {
-						
-						Node tmpNode = nodeTree.lower(n);
-						
-						if (tmpNode != null) {
-							ANSWER += tmpNode.subsetSum;
-							
-						}
-						
-					}
+					Node currNode = nodeArrayByX[i];
+//					Node tmpNode = nodeTree.lower(currNode);
+//					
+//					if (tmpNode != null) {
+//						ANSWER += getSubSetSum((TreeSet<Node>) nodeTree.subSet(nodeTree.first(), true, tmpNode, true));
+//					}
 					
-					// Insert Node
-					nodeTree.add(n);
-					// Update each Node subsetSum
-					//updateTreeSubsetSum(nodeTree);
+					TreeSet<Node> subTreeSet = (TreeSet<Node>) nodeTree.subSet(nodeTree.first(), true
+													, nodeTree.lower(currNode), true);
+					
+					ANSWER += getSubSetSum(subTreeSet); 
+					
+					nodeTree.add(currNode);
+					
 				}
 				
 				System.out.println("#" + testCase + " " + ANSWER);
@@ -106,18 +105,16 @@ import java.util.TreeSet;
 				
 			System.out.println("\n" + ( (System.currentTimeMillis() - tStart) / 1000.0 ) + " seconds");
 		}
-		
+
 		static class Node {
 			int x;
 			int y;
 			long data;
-			long subsetSum;
 			
 			public Node (int x, int y, int data) {
 				this.x = x;
 				this.y = y;
 				this.data = data;
-				this.subsetSum = 0;
 			}
 		}
 		
@@ -135,28 +132,26 @@ import java.util.TreeSet;
 				return n2.y - n1.y;
 			}
 		}
-		
-		static void updateTreeSubsetSum(TreeSet<Node> tree) {
-			int runningSum = 0;
-			Iterator<Node> itr = tree.iterator();
+
+		private static long getSubSetSum(TreeSet<Node> nodeTree) {
+			
+			long runningSum = 0;
+			Iterator<Node> itr = nodeTree.iterator();
 			
 			while (itr.hasNext()) {
-				Node currentNode = itr.next();
-				runningSum += currentNode.data;
-				currentNode.subsetSum = runningSum;
+				runningSum += itr.next().data;
 			}
 			
-			return;
+			return runningSum;
 		}
 		
-		// Helper function to print
+		// Helper function to print TreeSet
 		static void printTree(TreeSet<Node> tree) {
 			for (Node n : tree) {
-				System.out.println(n.x + " " + n.y + " " + n.data + " " + n.subsetSum);
+				System.out.println(n.x + " " + n.y + " " + n.data + " ");
 			}
 		}
-		
-		
+
 	}
 
 
