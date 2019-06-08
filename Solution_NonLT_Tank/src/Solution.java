@@ -35,9 +35,9 @@ import java.util.TreeSet;
 		
 		public static void main(String args[]) throws Exception
 		{
-			//System.setIn(new FileInputStream("sample_input.txt"));
+			System.setIn(new FileInputStream("sample_input.txt"));
 			//System.setIn(new FileInputStream("sample_input_small.txt"));
-			System.setIn(new FileInputStream("sample_input_big.txt"));
+			//System.setIn(new FileInputStream("sample_input_big.txt"));
 			
 			tStart = System.currentTimeMillis();
 			
@@ -48,12 +48,14 @@ import java.util.TreeSet;
 				int N = Integer.parseInt(br.readLine().trim());
 				String[] sInput;
 				//List<Node> nodeListByX = new ArrayList<>();
-				Node[] nodeArrayByX = new Node[N];
+				//Node[] nodeArrayByX = new Node[N];
+				TreeSet<Node> xNodeTree = new TreeSet<Node>(new SortByNodeXDesc());
 				
 				for(int i=0; i<N; i++){
 					sInput = br.readLine().split(" ");
 					//nodeListByX.add(new Node(Integer.parseInt(sInput[0]), Integer.parseInt(sInput[1]), Integer.parseInt(sInput[2])));
-					nodeArrayByX[i] = new Node(Integer.parseInt(sInput[0]), Integer.parseInt(sInput[1]), Integer.parseInt(sInput[2]));
+					//nodeArrayByX[i] = new Node(Integer.parseInt(sInput[0]), Integer.parseInt(sInput[1]), Integer.parseInt(sInput[2]));
+					xNodeTree.add(new Node(Integer.parseInt(sInput[0]), Integer.parseInt(sInput[1]), Integer.parseInt(sInput[2])) );
 				}
 				
 //				Collections.sort(nodeListByX, new Comparator<Node>(){
@@ -64,7 +66,7 @@ import java.util.TreeSet;
 //					
 //				});
 				
-				Arrays.sort(nodeArrayByX, new SortByNodeXDesc());
+				//Arrays.sort(nodeArrayByX, new SortByNodeXDesc());
 				
 //				for(Node n : nodeListByX) {
 //					System.out.println(n.x + " " + n.y + " " + n.data);
@@ -74,29 +76,29 @@ import java.util.TreeSet;
 //					System.out.println(n.x + " " + n.y + " " + n.data);
 //				}
 				
+				Iterator<Node> xItr = xNodeTree.iterator();
+				
 				// Instantiate TreeSet
-				TreeSet<Node> nodeTree = new TreeSet<Node>(new SortByNodeYDesc());
+				TreeSet<Node> yNodeTree = new TreeSet<Node>(new SortByNodeYDesc());
 				
 				ANSWER = 0;
 				
-				// 1st element will always not have higher y, so just add
-				nodeTree.add(nodeArrayByX[0]);
+				// 1st element will alway not have higher y, so just add
+				//nodeTree.add(nodeArrayByX[0]);
+				yNodeTree.add(xItr.next());
 				
-				for (int i=1; i<N; i++) {
-					// Find y > current y add to Answer
-					Node currNode = nodeArrayByX[i];
-//					Node tmpNode = nodeTree.lower(currNode);
-//					
-//					if (tmpNode != null) {
-//						ANSWER += getSubSetSum((TreeSet<Node>) nodeTree.subSet(nodeTree.first(), true, tmpNode, true));
-//					}
+				while (xItr.hasNext()) {
+					//Node currNode = nodeArrayByX[i];
+					Node currNode = xItr.next();
 					
-					TreeSet<Node> subTreeSet = (TreeSet<Node>) nodeTree.subSet(nodeTree.first(), true
-													, nodeTree.lower(currNode), true);
+					Node tmpNode = yNodeTree.lower(currNode);
 					
-					ANSWER += getSubSetSum(subTreeSet); 
+					if (tmpNode != null) {
+						// find subset with higher y's
+						ANSWER += getSubSetSum((TreeSet<Node>) yNodeTree.subSet(yNodeTree.first(), true, tmpNode, true));
+					} 
 					
-					nodeTree.add(currNode);
+					yNodeTree.add(currNode);
 					
 				}
 				
