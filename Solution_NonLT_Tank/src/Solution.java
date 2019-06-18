@@ -35,9 +35,9 @@ import java.util.TreeSet;
 		
 		public static void main(String args[]) throws Exception
 		{
-			System.setIn(new FileInputStream("sample_input.txt"));
+			//System.setIn(new FileInputStream("sample_input.txt"));
 			//System.setIn(new FileInputStream("sample_input_small.txt"));
-			//System.setIn(new FileInputStream("sample_input_big.txt"));
+			System.setIn(new FileInputStream("sample_input_big.txt"));
 			
 			tStart = System.currentTimeMillis();
 			
