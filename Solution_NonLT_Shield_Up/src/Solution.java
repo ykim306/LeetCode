@@ -34,8 +34,8 @@ import java.util.List;
 		public static void main(String args[]) throws Exception
 		{
 			//System.setIn(new FileInputStream("sample_input.txt"));
-			System.setIn(new FileInputStream("sample_input_small.txt"));
-			//System.setIn(new FileInputStream("sample_input_big.txt"));
+			//System.setIn(new FileInputStream("sample_input_small.txt"));
+			System.setIn(new FileInputStream("sample_input_big.txt"));
 			
 			tStart = System.currentTimeMillis();
 			
@@ -69,10 +69,10 @@ import java.util.List;
 		}
 		
 		static void findNearestEnemyShip(Node[][] NM, Node currentNode) {
-			pathExists(NM);
+			traverseNode(NM);
 		}
 		
-		public static int pathExists(Node[][] matrix) {
+		public static int traverseNode(Node[][] matrix) {
 			List<Node> queue = new ArrayList<Node>();
 			queue.add(matrix[1][1]);
 			
