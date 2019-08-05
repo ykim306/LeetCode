@@ -97,7 +97,7 @@ public class Solution
 			} else if (checkIfCanClean(x, y, d+3)) {
 				cleanMap(x + moveX[(d+3) % 4], y + moveY[(d+3) % 4], d+3);
 			} else if (checkIfCanClean(x, y, d)) {
-				cleanMap(x + moveX[(d+4) % 4], y + moveY[(d+4) % 4], d);
+				cleanMap(x + moveX[(d) % 4], y + moveY[(d) % 4], d);
 			}
 			
 			// All surrounding area is 2 or 1 or map boundary
