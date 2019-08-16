@@ -17,7 +17,9 @@ public class Solution
 	static int M;
 	static int[][] map;
 	
-	static int[] moveX = new int[] {0, -1, 0, 1};
+//	static int[] moveX = new int[] {0, -1, 0, 1};
+//	static int[] moveY = new int[] {-1, 0, 1, 0};
+	static int[] moveX = new int[] {0, 1, 0, -1};
 	static int[] moveY = new int[] {-1, 0, 1, 0};
 	
 	static boolean stopCleaning;
@@ -64,8 +66,8 @@ public class Solution
 			
 			// Flip left and right to simplify direction
 			// top = 0 | left = 1 | bottom = 2 | right = 3
-			if (startD==3) startD=1;
-			else if (startD==1) startD=3;
+//			if (startD==3) startD=1;
+//			else if (startD==1) startD=3;
 			
 			cleanMap(startX, startY, startD);
 							
@@ -84,25 +86,36 @@ public class Solution
 				ANSWER++;
 			}
 			
-//			System.out.println("At (" + x + ", " + y + ") d= " + d % 4);
-//			for (int i = 0; i < N; i++) {
-//				System.out.print(Arrays.toString(map[i]) + "\n");
-//			}
-//			System.out.println();
+			System.out.println("At (" + x + ", " + y + ") d= " + d % 4);
+			for (int i = 0; i < N; i++) {
+				System.out.print(Arrays.toString(map[i]) + "\n");
+			}
+			System.out.println();
 			
-			if (checkIfCanClean(x, y, d+1)) {
-				cleanMap(x + moveX[(d+1) % 4], y + moveY[(d+1) % 4], d+1);
-			} else if (checkIfCanClean(x, y, d+2)) {
-				cleanMap(x + moveX[(d+2) % 4], y + moveY[(d+2) % 4], d+2);
+			d = (d + 3) % 4;
+			
+//			if (checkIfCanClean(x, y, d+1)) {
+//				cleanMap(x + moveX[(d+1) % 4], y + moveY[(d+1) % 4], d+1);
+//			} else if (checkIfCanClean(x, y, d+2)) {
+//				cleanMap(x + moveX[(d+2) % 4], y + moveY[(d+2) % 4], d+2);
+//			} else if (checkIfCanClean(x, y, d+3)) {
+//				cleanMap(x + moveX[(d+3) % 4], y + moveY[(d+3) % 4], d+3);
+//			} else if (checkIfCanClean(x, y, d)) {
+//				cleanMap(x + moveX[(d) % 4], y + moveY[(d) % 4], d);
+//			}
+			if (checkIfCanClean(x, y, d)) {
+				cleanMap(x + moveX[(d) % 4], y + moveY[(d) % 4], d);
 			} else if (checkIfCanClean(x, y, d+3)) {
 				cleanMap(x + moveX[(d+3) % 4], y + moveY[(d+3) % 4], d+3);
-			} else if (checkIfCanClean(x, y, d)) {
-				cleanMap(x + moveX[(d) % 4], y + moveY[(d) % 4], d);
+			} else if (checkIfCanClean(x, y, d+2)) {
+				cleanMap(x + moveX[(d+2) % 4], y + moveY[(d+2) % 4], d+2);
+			} else if (checkIfCanClean(x, y, d+1)) {
+				cleanMap(x + moveX[(d+1) % 4], y + moveY[(d+1) % 4], d+1);
 			}
 			
 			// All surrounding area is 2 or 1 or map boundary
 			if (checkIfCanCleanReverse(x, y, d)) {
-				cleanMap(x + moveX[(d+2) % 4], y + moveY[(d+2) % 4], d);
+				cleanMap(x - moveX[d%4], y - moveY[d%4], d);
 			} 
 			
 			stopCleaning = true;
@@ -123,8 +136,8 @@ public class Solution
 	}
 	
 	private static boolean checkIfCanCleanReverse(int x, int y, int d) {
-		int nextX = x + moveX[(d+2)%4];
-		int nextY = y + moveY[(d+2)%4];
+		int nextX = x - moveX[d%4];
+		int nextY = y - moveY[d%4];
 		
 		if (nextX >= 0 && nextX < M && nextY >= 0 && nextY < N) {
 			if (map[nextY][nextX]==2) {
