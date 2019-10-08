@@ -20,7 +20,7 @@ sample_input_small.txt output
 #6 264767722
 
 */
-public class Solution_2D
+public class Solution_2D_Alternative
 {
 	static long tStart = 0;
 	
@@ -41,30 +41,67 @@ public class Solution_2D
 		//System.setIn(new FileInputStream("sample_input.txt"));
 		System.setIn(new FileInputStream("sample_input_small.txt"));
 		//System.setIn(new FileInputStream("sample_input_small_2.txt"));
-		//System.setIn(new FileInputStream("sample_input_big.txt"));row
+		//System.setIn(new FileInputStream("sample_input_big.txt"));
 
 		tStart = System.currentTimeMillis();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		/*
-		(a<b, b>c, c<d) 이런 경우는 DP1
-		(a>b, b<c, c>d) 이런 경우는 DP2
-		처음오는 숫자 1~N : A라고 하면
-		DP1[N][A] = DP2[N-1][A]~DP2[N-1][N-1]의 합 
-		DP2[N][A] = DP1[N-1][1]~DP1[N-1][A-1]의 합
-		*/
 		
 		upDown[2][1] = 1;
 		downUp[2][2] = 1;
 		
-		for (int row = 1; row <= MAX_N; row++) {
+		for (int row = 2; row <= MAX_N; row++) {
 			for (int col = 1; col <= row; col++) {
-				for (int subCol = col; subCol <= row - 1; subCol++) {
-					//DP1[a][b] += DP2[a - 1][c];
-					//DP1[a][b] = DP1[a][b] % MOD;
-					
-					upDown[row][col] = ( upDown[row][col] + downUp[row - 1][subCol] ) % MOD;
+				
+//				for (int subCol = 1; subCol <= row-1; subCol++) {
+//					
+//					if (subCol <= (col-1)) {
+//						
+//						downUp[row][col] = (downUp[row][col] % MOD) + (upDown[row - 1][subCol] % MOD);
+//				
+////						System.out.println("upDown : " + row + ", " + col);
+////						for (long[] rows : upDown) {
+////							for (long c : rows) {
+////								System.out.print(c + " ");
+////							}
+////							System.out.println();
+////						}
+////						
+////						System.out.println("downUp : " + row + ", " + col);
+////						for (long[] rows : downUp) {
+////							for (long c : rows) {
+////								System.out.print(c + " ");
+////							}
+////							System.out.println();
+////						}
+////						System.out.println();
+//					} else {
+//						
+//						upDown[row][col] = (upDown[row][col] % MOD) + (downUp[row - 1][subCol] % MOD);
+//				
+////						System.out.println("upDown : " + row + ", " + col);
+////						for (long[] rows : upDown) {
+////							for (long c : rows) {
+////								System.out.print(c + " ");
+////							}
+////							System.out.println();
+////						}
+////						
+////						System.out.println("downUp : " + row + ", " + col);
+////						for (long[] rows : downUp) {
+////							for (long c : rows) {
+////								System.out.print(c + " ");
+////							}
+////							System.out.println();
+////						}
+////						System.out.println();
+//					}
+//					
+//				}	
+				
+				for (int subCol = 1; subCol <= col-1; subCol++) {
+					//downUp[row][col] = ( downUp[row][col] + upDown[row - 1][subCol] ) % MOD;
+					downUp[row][col] = (downUp[row][col] % MOD) + (upDown[row - 1][subCol] % MOD);
 					
 //					System.out.println("upDown : " + row + ", " + col);
 //					for (long[] rows : upDown) {
@@ -83,11 +120,10 @@ public class Solution_2D
 //					}
 //					System.out.println();
 				}
-				for (int subCol = 1; subCol <= col - 1; subCol++) {
-					//DP2[a][b] += DP1[a - 1][c];
-					//DP2[a][b] = DP2[a][b] % MOD;
-					
-					downUp[row][col] = ( downUp[row][col] + upDown[row - 1][subCol] ) % MOD;
+				
+				for (int subCol = col; subCol <= row-1; subCol++) {
+					//upDown[row][col] = ( upDown[row][col] + downUp[row - 1][subCol] ) % MOD;
+					upDown[row][col] = (upDown[row][col] % MOD) + (downUp[row - 1][subCol] % MOD);
 					
 //					System.out.println("upDown2 : " + row + ", " + col);
 //					for (long[] rows : upDown) {
@@ -106,6 +142,7 @@ public class Solution_2D
 //					}
 //					System.out.println();
 				}
+				
 			}
 		}
 		
@@ -132,10 +169,13 @@ public class Solution_2D
 			
 			inputN = Integer.parseInt(br.readLine());
 			
-			for (int a = 1; a <= inputN; a++) {
-				ANSWER += (upDown[inputN][a] + downUp[inputN][a]) % MOD;
+			for (int col = 1; col <= inputN; col++) {
+//				ANSWER += (upDown[inputN][col] % MOD) + (downUp[inputN][col] % MOD);
+//				ANSWER = ANSWER % MOD;
+				ANSWER = (ANSWER % MOD) + (upDown[inputN][col] % MOD) + (downUp[inputN][col] % MOD);
 				ANSWER = ANSWER % MOD;
 			}
+			
 			System.out.println("#" + testCase + " " + ANSWER);
 
 		}
